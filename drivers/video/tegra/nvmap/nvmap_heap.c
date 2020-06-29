@@ -51,8 +51,8 @@
 /*
  * "carveouts" are platform-defined regions of physically contiguous memory
  * which are not managed by the OS. A platform may specify multiple carveouts,
- * for either small special-purpose memory regions or reserved regions of main
- * system memory.
+ * for either small special-purpose memory regions (like IRAM on Tegra SoCs)
+ * or reserved regions of main system memory.
  *
  * The carveout allocator returns allocations which are physically contiguous.
  */

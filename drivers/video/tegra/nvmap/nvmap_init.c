@@ -68,6 +68,7 @@ struct device __weak tegra_generic_dev;
 struct device __weak tegra_vpr_dev;
 EXPORT_SYMBOL(tegra_vpr_dev);
 
+struct device __weak tegra_iram_dev;
 struct device __weak tegra_generic_cma_dev;
 struct device __weak tegra_vpr_cma_dev;
 
@@ -99,6 +100,14 @@ __weak const struct of_device_id nvmap_of_ids[] = {
 
 static struct nvmap_platform_carveout nvmap_carveouts[] = {
 	[0] = {
+		.name		= "iram",
+		.usage_mask	= NVMAP_HEAP_CARVEOUT_IRAM,
+		.base		= 0,
+		.size		= 0,
+		.dma_dev	= &tegra_iram_dev,
+		.disable_dynamic_dma_map = true,
+	},
+	[1] = {
 		.name		= "generic-0",
 		.usage_mask	= NVMAP_HEAP_CARVEOUT_GENERIC,
 		.base		= 0,
@@ -109,7 +118,7 @@ static struct nvmap_platform_carveout nvmap_carveouts[] = {
 		.dma_info	= &generic_dma_info,
 #endif
 	},
-	[1] = {
+	[2] = {
 		.name		= "vpr",
 		.usage_mask	= NVMAP_HEAP_CARVEOUT_VPR,
 		.base		= 0,
@@ -121,7 +130,7 @@ static struct nvmap_platform_carveout nvmap_carveouts[] = {
 #endif
 		.enable_static_dma_map = true,
 	},
-	[2] = {
+	[3] = {
 		.name		= "vidmem",
 		.usage_mask	= NVMAP_HEAP_CARVEOUT_VIDMEM,
 		.base		= 0,
@@ -129,17 +138,13 @@ static struct nvmap_platform_carveout nvmap_carveouts[] = {
 		.disable_dynamic_dma_map = true,
 		.no_cpu_access = true,
 	},
-	[3] = {
+	[4] = {
 		.name		= "fsi",
 		.usage_mask	= NVMAP_HEAP_CARVEOUT_FSI,
 		.base		= 0,
 		.size		= 0,
 	},
 	/* Need uninitialized entries for IVM carveouts */
-	[4] = {
-		.name		= NULL,
-		.usage_mask	= NVMAP_HEAP_CARVEOUT_IVM,
-	},
 	[5] = {
 		.name		= NULL,
 		.usage_mask	= NVMAP_HEAP_CARVEOUT_IVM,
@@ -149,6 +154,10 @@ static struct nvmap_platform_carveout nvmap_carveouts[] = {
 		.usage_mask	= NVMAP_HEAP_CARVEOUT_IVM,
 	},
 	[7] = {
+		.name		= NULL,
+		.usage_mask	= NVMAP_HEAP_CARVEOUT_IVM,
+	},
+	[8] = {
 		.name		= NULL,
 		.usage_mask	= NVMAP_HEAP_CARVEOUT_IVM,
 	},
@@ -749,6 +758,7 @@ finish:
 
 RESERVEDMEM_OF_DECLARE(nvmap_co, "nvidia,generic_carveout", nvmap_co_setup);
 RESERVEDMEM_OF_DECLARE(nvmap_ivm_co, "nvidia,ivm_carveout", nvmap_co_setup);
+RESERVEDMEM_OF_DECLARE(nvmap_iram_co, "nvidia,iram-carveout", nvmap_co_setup);
 #ifndef NVMAP_LOADABLE_MODULE
 RESERVEDMEM_OF_DECLARE(nvmap_vpr_co, "nvidia,vpr-carveout", nvmap_co_setup);
 RESERVEDMEM_OF_DECLARE(nvmap_fsi_co, "nvidia,fsi-carveout", nvmap_co_setup);
@@ -760,19 +770,19 @@ RESERVEDMEM_OF_DECLARE(nvmap_fsi_co, "nvidia,fsi-carveout", nvmap_co_setup);
 static int __nvmap_init_legacy(struct device *dev)
 {
 	/* Carveout. */
-	if (!nvmap_carveouts[0].base) {
-		nvmap_carveouts[0].base = tegra_carveout_start;
-		nvmap_carveouts[0].size = tegra_carveout_size;
+	if (!nvmap_carveouts[1].base) {
+		nvmap_carveouts[1].base = tegra_carveout_start;
+		nvmap_carveouts[1].size = tegra_carveout_size;
 		if (!tegra_vpr_resize)
-			nvmap_carveouts[0].cma_dev = NULL;
+			nvmap_carveouts[1].cma_dev = NULL;
 	}
 
 	/* VPR */
-	if (!nvmap_carveouts[1].base) {
-		nvmap_carveouts[1].base = tegra_vpr_start;
-		nvmap_carveouts[1].size = tegra_vpr_size;
+	if (!nvmap_carveouts[2].base) {
+		nvmap_carveouts[2].base = tegra_vpr_start;
+		nvmap_carveouts[2].size = tegra_vpr_size;
 		if (!tegra_vpr_resize)
-			nvmap_carveouts[1].cma_dev = NULL;
+			nvmap_carveouts[2].cma_dev = NULL;
 	}
 
 	return 0;
@@ -814,15 +824,15 @@ int __init nvmap_init(struct platform_device *pdev)
 		pr_debug("reserved_mem_device_init fails, try legacy init\n");
 
 	/* try legacy init */
-	if (!nvmap_carveouts[0].init_done) {
-		rmem.priv = &nvmap_carveouts[0];
+	if (!nvmap_carveouts[1].init_done) {
+		rmem.priv = &nvmap_carveouts[1];
 		err = nvmap_co_device_init(&rmem, &pdev->dev);
 		if (err)
 			goto end;
 	}
 
-	if (!nvmap_carveouts[1].init_done) {
-		rmem.priv = &nvmap_carveouts[1];
+	if (!nvmap_carveouts[2].init_done) {
+		rmem.priv = &nvmap_carveouts[2];
 		err = nvmap_co_device_init(&rmem, &pdev->dev);
 	}
 
