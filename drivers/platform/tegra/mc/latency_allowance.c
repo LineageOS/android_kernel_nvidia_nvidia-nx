@@ -2,6 +2,7 @@
  * arch/arm/mach-tegra/latency_allowance.c
  *
  * Copyright (C) 2011-2020, NVIDIA CORPORATION. All rights reserved.
+ * Copyright (c) 2021-2023, CTCaer.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -58,6 +59,7 @@ module_param_named(disable_disp_ptsa,
 	cs.disable_disp_ptsa, bool, S_IRUGO | S_IWUSR);
 module_param_named(disable_bbc_ptsa,
 	cs.disable_bbc_ptsa, bool, S_IRUGO | S_IWUSR);
+module_param_named(ptsa_rework, cs.ptsa_rework, bool, S_IRUGO);
 
 #ifdef CONFIG_DEBUG_FS
 static int la_ptsa_debugfs_init(void);
