@@ -118,7 +118,7 @@ struct fan_dev_data {
 #define MULTIQP (100)
 #define DEFERRED_RESUME_TIME 3000
 #define THERMAL_GOV_PID "pid_thermal_gov"
-#define THERMAL_CONTINUOUS_GOV "continuous_therm_gov"
+#define THERMAL_CONTINUOUS_GOV "cont_therm_gov"
 
 struct therm_tskin_fan_est {
 	long cur_temp;
