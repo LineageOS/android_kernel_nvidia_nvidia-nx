@@ -637,7 +637,7 @@ static ssize_t fan_available_profiles_show(struct device *dev,
 {
 	struct fan_dev_data *fan_data = dev_get_drvdata(dev);
 	int i;
-	ssize_t count = 0, total_count = 0;
+	ssize_t count = 0;
 
 	if (!fan_data)
 		return -EINVAL;
