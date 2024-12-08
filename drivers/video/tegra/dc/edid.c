@@ -96,7 +96,7 @@ static const char default_720p_edid[256] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xca,
 };
 
-#ifdef DEBUG
+#if 0
 static char tegra_edid_dump_buff[16 * 1024];
 
 static void tegra_edid_dump(struct tegra_edid *edid)

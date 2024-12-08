@@ -181,7 +181,6 @@ struct fan_dev_data {
 	bool   continuous_gov;
 };
 
-#define DEBUG 0
 #define MULTIQP (100)
 #define DEFERRED_RESUME_TIME 3000
 #define THERMAL_GOV_PID "pid_thermal_gov"

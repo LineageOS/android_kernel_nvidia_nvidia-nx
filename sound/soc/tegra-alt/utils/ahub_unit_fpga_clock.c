@@ -19,8 +19,6 @@
  */
 
 
-#define VERBOSE_DEBUG
-#define DEBUG
 #include <linux/module.h>
 #include <asm/types.h>
 #include <../arch/arm/mach-tegra/iomap.h>
