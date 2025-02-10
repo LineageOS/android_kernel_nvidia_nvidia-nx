@@ -22,6 +22,30 @@
       },
       "revId": "ca59ab615dee187d6b1d4f146b321f1e842c72ff",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4fa4d06_8e7d3b2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16185
+      },
+      "writtenOn": "2025-02-10T06:55:40Z",
+      "side": 1,
+      "message": "yeah, this is the mirror of Aaron\u0027s change on the core Nvidia kernel.\n\nThis kernel will follow whatever he does there.",
+      "parentUuid": "859b84f5_b8f7aee9",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "ca59ab615dee187d6b1d4f146b321f1e842c72ff",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
